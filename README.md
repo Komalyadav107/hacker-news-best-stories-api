@@ -40,6 +40,15 @@ Example response:
 | `?n=0`, `?n=201`, `?n=abc`, or `n` missing | `400 Bad Request` (ProblemDetails) |
 | Hacker News unavailable | `500` (ProblemDetails) |
 
+<img width="1710" height="1112" alt="Screenshot 2026-10-01 at 11 52 51 PM" src="https://github.com/user-attachments/assets/a14157f5-c149-4423-b574-81b5a3af172b" />
+
+<img width="1710" height="1112" alt="image" src="https://github.com/user-attachments/assets/cde82eac-c87c-4a30-9cab-867888776d82" />
+
+<img width="1710" height="1112" alt="Screenshot 2026-10-01 at 11 55 02 PM" src="https://github.com/user-attachments/assets/6027b25c-4206-43f7-972b-b7d04f3f369e" />
+
+
+
+
 ## Running the tests
 
 ```bash
