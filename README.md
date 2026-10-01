@@ -81,3 +81,16 @@ To avoid overloading the Hacker News API while serving many requests:
 - `uri` is `null` for posts without a link (for example, "Ask HN" posts).
 - Stories are ordered by their current `score`, not by Hacker News's own "best" ranking.
 - The API runs as a single instance, so an in-memory cache is enough.
+
+## Enhancements given more time
+- **Background refresh:** refresh the cache on a timer with a hosted service, so no
+  user request ever waits for Hacker News, and serve the last good data if Hacker News is down.
+- **Distributed cache (for example, Redis):** share the cache across multiple instances
+  when scaling out.
+- **Configuration:** move cache duration, concurrency limit, and base URL into
+  `appsettings.json` using the Options pattern.
+- **Incremental updates:** cache stories individually and fetch only new IDs on refresh.
+- **Rate limiting** on this API itself, using ASP.NET Core's built-in rate limiter.
+- **Integration tests** using `WebApplicationFactory` to test HTTP validation end to end.
+- **Observability:** health checks, OpenTelemetry metrics and tracing.
+- **Docker** support and a CI pipeline (GitHub Actions) that runs the tests.
