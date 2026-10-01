@@ -6,4 +6,13 @@ public sealed record StoryDto(
     string PostedBy,
     DateTimeOffset Time,
     int Score,
-    int CommentCount);
+    int CommentCount)
+{
+    public static StoryDto FromHackerNewsItem(HackerNewsItem item) => new(
+        Title: item.Title ?? string.Empty,
+        Uri: item.Url,
+        PostedBy: item.By ?? string.Empty,
+        Time: DateTimeOffset.FromUnixTimeSeconds(item.Time),
+        Score: item.Score,
+        CommentCount: item.Descendants);
+}
