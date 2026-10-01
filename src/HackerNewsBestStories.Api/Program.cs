@@ -15,18 +15,24 @@ builder.Services.AddHttpClient<IHackerNewsClient, HackerNewsClient>(client =>
 {
     PooledConnectionLifetime = TimeSpan.FromMinutes(2)
 })
-.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+.SetHandlerLifetime(Timeout.InfiniteTimeSpan)
+.AddStandardResilienceHandler(options => {
+    options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(5);
+    options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(10);
+    options.Retry.MaxRetryAttempts = 3;
+});
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IBestStoriesService, BestStoriesService>();
+builder.Services.AddProblemDetails(); 
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler();  
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

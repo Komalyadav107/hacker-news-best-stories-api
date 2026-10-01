@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using HackerNewsBestStories.Api.Models;
 using Microsoft.Extensions.Caching.Memory;
+using Polly.CircuitBreaker;
+using Polly.Timeout;
 
 namespace HackerNewsBestStories.Api.Services;
 
@@ -77,7 +79,10 @@ public sealed class BestStoriesService : IBestStoriesService
             {
                 _logger.LogError(ex, "Error fetching story {StoryId}", storyId);
             }
-            
+            catch (Exception ex) when (ex is HttpRequestException or TimeoutRejectedException or BrokenCircuitException)
+            {
+                _logger.LogWarning(ex, "Failed to fetch story {StoryId}", storyId);
+            }
         });
 
         return items.OrderByDescending(item => item.Score)
